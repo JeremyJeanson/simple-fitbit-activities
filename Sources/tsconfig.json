@@ -7,8 +7,5 @@
 	"include": [
 		"./node_modules/fitbit-sdk-types/types/device",
 		"**/*.ts",
-	],
-	"exclude": [
-		"**.d.ts"
 	]
 }
