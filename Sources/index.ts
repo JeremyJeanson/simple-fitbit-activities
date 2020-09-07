@@ -61,6 +61,9 @@ export class Activity {
         return this.actual * 360 / this.goal;
     }
 
+    /**
+     * Return this actual progression as pourcentage
+     */
     public asPourcent(): number {
         // Check to avoid calcul
         if (this.undefined() || this.goal === undefined
@@ -160,7 +163,7 @@ export function getNewValues(): Activities {
         result.distance = distance;
     }
     if (_elevationIsAvailable) {
-        const elevationGain = new Activity(today.local.elevationGain, goals.elevationGain);
+        const elevationGain = new Activity(today.adjusted.elevationGain, goals.elevationGain);
         if (equals(elevationGain, _lastActivities.elevationGain)) {
             _lastActivities.elevationGain = elevationGain;
             result.elevationGain = elevationGain;

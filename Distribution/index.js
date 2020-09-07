@@ -92,7 +92,7 @@ export function getNewValues() {
         result.distance = distance;
     }
     if (_elevationIsAvailable) {
-        var elevationGain = new Activity(today.local.elevationGain, goals.elevationGain);
+        var elevationGain = new Activity(today.adjusted.elevationGain, goals.elevationGain);
         if (equals(elevationGain, _lastActivities.elevationGain)) {
             _lastActivities.elevationGain = elevationGain;
             result.elevationGain = elevationGain;

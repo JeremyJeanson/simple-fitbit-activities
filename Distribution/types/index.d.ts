@@ -37,10 +37,13 @@ declare module "simple-fitbit-activities" {
         goalReached(): boolean;
 
         /**
-         * Return this actual value as angle (0=0% and 360=100%)
+         * Return this actual progression as angle (0=0% and 360=100%)
          */
         as360Arc(): number;
 
+        /**
+         * Return this actual progression as pourcentage
+         */
         asPourcent(): number;
     }
 
