@@ -103,22 +103,7 @@ If permissions are not well set, you will not have exceptions :
 - Values and calculs will return `0`.
 - Distance will use `miles` as unit.
 
-## 3. Include types (for Typescript)
-
-Update the `tsconfig.json` inside the app folder.
-
-```json
-{
- "extends": "../tsconfig.json",
- "include": [
-  "**/*.ts",
-  "../node_modules/fitbit-sdk-types/types/device",
-  "../node_modules/simple-fitbit-activities/types"
- ]
-}
-```
-
-## 4. Initialize the device app
+## 3. Initialize the device app
 
 Inside the `app` folder the `index.ts` file have to :
 - Import the module.
@@ -131,7 +116,7 @@ import * as simpleActivities from "simple-fitbit-activities";
 simpleActivities.initialize(UpdateActivities);
 ```
 
-## 5. Use and get activities
+## 4. Use and get activities
 
 The `UpdateActivities` have to call the `getNewValues()` method to obtain new values.
 
@@ -154,12 +139,12 @@ function UpdateActivities() {
 
 The method `UpdateActivity` ia a generic method (for example). This method is here to update the UI. Prior to update the UI, the `Activity` should be verified. It will be `undefined` if values haven't changed since the last call.
 
-## 6. Refresh / update
+## 5. Refresh / update
 
 This module hasn't logic to periodic refresh. You have to call your `UpdateActivities` 
 method when you need an update of user activities (you could use the Fitbit `clock` module to).
 
-## 7. Bonus
+## 6. Bonus
 
 The method `elevationIsAvailable()` allow your app to check if the device has capacity to monitor user elevation.
 The module has a reset method. It will delete cache of activities. Next call to `getNewValues()` will return an object will all properties defined. It could have an interest when you have to reset your UI, or when you want to force the call of all your methods.
