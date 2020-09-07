@@ -1,0 +1,14 @@
+{
+	"extends": "./node_modules/@fitbit/sdk/sdk-tsconfig.json",
+	"compilerOptions": {
+		"outDir": "../distribution",
+		"sourceMap": false,
+	},
+	"include": [
+		"./node_modules/fitbit-sdk-types/types/device",
+		"**/*.ts",
+	],
+	"exclude": [
+		"**.d.ts"
+	]
+}

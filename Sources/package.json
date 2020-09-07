@@ -1,0 +1,18 @@
+{
+  "name": "simple-fitbit-activities",
+  "version": "0.0.0-alpa0",
+  "description": "Module to simplify access and calcul of activities inside Fitbit OS applications",
+  "author": "Jérémy Jeanson (https://www.bugshunter.net)",
+  "license": "MIT",
+  "keywords": [
+  ],
+  "devDependencies": {
+    "@fitbit/sdk": "4.1.0",
+    "fitbit-sdk-types": "4.3.9",
+    "typescript": "^4.0.2"
+  },
+  "scripts": {
+    "build":"@powershell Copy-Item -Path ./package.json,../README.md -Destination ../distribution/ && tsc --build",
+    "clean": "tsc --build --clean && @powershell Remove-Item ../distribution/*.*"
+  }
+}
