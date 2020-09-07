@@ -13,7 +13,7 @@ This module includes many features to help developers :
 - It contains many solutions to avoid exceptions in your applications.
 - Method to obtain user progression as a percentage.
 - Method to obtain user progression as angle (360°=100%).
-- Type definitions for TypScript (with comments to visualize the documentation when you are coding).
+- Type definitions for TypScript or JavaScript (with comments to visualize the documentation when you are coding).
 
 # Data structure
 Data returned by the module respect the `Activities` interface. Each property is defined when new values are available.
@@ -167,7 +167,6 @@ Keep in mind that this module is built for small devices. It does not have the g
 This module was built with TypeScript. It uses Typescript to generate JavaScript files that are imported by the Fitbit SDK.
 It includes the following npm scripts to:
 - build (generate JavaScript files and copy all requested files to the `./distribution` directory)
-- clean (remove generated files from the `./distribution` directory)
-Types are inside the `./distribution/types` directory.
+- clean (remove generated files from the `./distribution` directory).
 
 If you change exported methods or class, think to update those files.
