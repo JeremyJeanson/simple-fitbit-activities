@@ -1,5 +1,5 @@
 // To know user activities
-import { goals, today } from "user-activity";
+import { ActiveZoneMinutes, goals, today } from "user-activity";
 import { me as appbit } from "appbit";
 import { units } from "user-settings";
 
@@ -10,7 +10,7 @@ export class Activities {
     steps: Activity;
     elevationGain: Activity;
     calories: Activity;
-    activeMinutes: Activity;
+    activeZoneMinutes: ActiveZoneMinutesActivity;
     distance: Activity;
 }
 
@@ -74,6 +74,21 @@ export class Activity {
     }
 }
 
+/**
+ * ActiveZoneMinutes (properties "actual" and "goal" are defined with the total values)
+ */
+export class ActiveZoneMinutesActivity extends Activity {
+    constructor(actual: ActiveZoneMinutes, goal: ActiveZoneMinutes) {
+        super(actual.total, goal.total);
+        this.cardio = new Activity(actual.cardio, goal.cardio);
+        this.fatBurn = new Activity(actual.fatBurn, goal.fatBurn);
+        this.peak = new Activity(actual.peak, goal.peak);
+    }
+    public readonly cardio: Activity;
+    public readonly fatBurn: Activity;
+    public readonly peak: Activity;
+}
+
 // Last values
 const _lastActivities = new Activities();
 
@@ -113,7 +128,7 @@ goals.addEventListener("reachgoal", () => {
  * Reset the last known state of activities.
  */
 export function reset(): void {
-    _lastActivities.activeMinutes = undefined;
+    _lastActivities.activeZoneMinutes = undefined;
     _lastActivities.calories = undefined;
     _lastActivities.distance = undefined;
     _lastActivities.elevationGain = undefined;
@@ -132,7 +147,8 @@ export function getNewValues(): Activities {
     if (!appbit.permissions.granted("access_activity")) {
         // Return empty activities
         const emptyActivity = new Activity(undefined, undefined);
-        result.activeMinutes = emptyActivity;
+        const emptyAZM: ActiveZoneMinutes = { total: 0, cardio: undefined, fatBurn: undefined, peak: undefined };
+        result.activeZoneMinutes = new ActiveZoneMinutesActivity(emptyAZM, emptyAZM);
         result.calories = emptyActivity;
         result.distance = emptyActivity;
         result.elevationGain = emptyActivity;
@@ -143,7 +159,7 @@ export function getNewValues(): Activities {
     // Get current acticities
     const steps = new Activity(today.adjusted.steps, goals.steps);
     const calories = new Activity(today.adjusted.calories, goals.calories);
-    const activeMinutes = new Activity(today.adjusted.activeMinutes, goals.activeMinutes);
+    const activeZoneMinutes = new ActiveZoneMinutesActivity(today.adjusted.activeZoneMinutes, goals.activeZoneMinutes);
     const distance = getDistances();
 
     if (equals(steps, _lastActivities.steps)) {
@@ -154,9 +170,9 @@ export function getNewValues(): Activities {
         _lastActivities.calories = calories;
         result.calories = calories;
     }
-    if (equals(activeMinutes, _lastActivities.activeMinutes)) {
-        _lastActivities.activeMinutes = activeMinutes;
-        result.activeMinutes = activeMinutes;
+    if (equals(activeZoneMinutes, _lastActivities.activeZoneMinutes)) {
+        _lastActivities.activeZoneMinutes = activeZoneMinutes;
+        result.activeZoneMinutes = activeZoneMinutes;
     }
     if (equals(distance, _lastActivities.distance)) {
         _lastActivities.distance = distance;

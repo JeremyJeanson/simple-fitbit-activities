@@ -1,3 +1,4 @@
+import { ActiveZoneMinutes } from "user-activity";
 /***
  * All activities
  */
@@ -5,7 +6,7 @@ export declare class Activities {
     steps: Activity;
     elevationGain: Activity;
     calories: Activity;
-    activeMinutes: Activity;
+    activeZoneMinutes: ActiveZoneMinutesActivity;
     distance: Activity;
 }
 /**
@@ -38,6 +39,15 @@ export declare class Activity {
      * Return this actual progression as pourcentage
      */
     asPourcent(): number;
+}
+/**
+ * ActiveZoneMinutes (properties "actual" and "goal" are defined with the total values)
+ */
+export declare class ActiveZoneMinutesActivity extends Activity {
+    constructor(actual: ActiveZoneMinutes, goal: ActiveZoneMinutes);
+    readonly cardio: Activity;
+    readonly fatBurn: Activity;
+    readonly peak: Activity;
 }
 /**
  * Allow to detect elevation capacity on others device than versa light.

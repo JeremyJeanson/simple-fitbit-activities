@@ -25,12 +25,12 @@ interface Activities {
     steps: Activity;
     elevationGain: Activity;
     calories: Activity;
-    activeMinutes: Activity;
     distance: Activity;
+    activeZoneMinutes: ActiveZoneMinutesActivity;
 }
 ```
 
-Each activity respect the `Activity` interface.
+Each property of `Activities` respect the `Activity` interface.
 It exposes
 - The current value of the activity (from the fitbit `today.adjusted` interface).
 - The goal fixed by the user.
@@ -71,6 +71,13 @@ interface Activity {
     asPourcent(): number;
 }
 ```
+
+ActiveZoneMinutesActivity as 3 more properties:
+- cardio of type Activity.
+- fatBurn of type Activity.
+- peak of type Activity.
+
+Properties `actual` and `goal` are exposing total values.
 
 # Installation
 

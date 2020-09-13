@@ -1,3 +1,4 @@
+import { __extends } from "tslib";
 // To know user activities
 import { goals, today } from "user-activity";
 import { me as appbit } from "appbit";
@@ -62,6 +63,21 @@ var Activity = /** @class */ (function () {
     return Activity;
 }());
 export { Activity };
+/**
+ * ActiveZoneMinutes (properties "actual" and "goal" are defined with the total values)
+ */
+var ActiveZoneMinutesActivity = /** @class */ (function (_super) {
+    __extends(ActiveZoneMinutesActivity, _super);
+    function ActiveZoneMinutesActivity(actual, goal) {
+        var _this = _super.call(this, actual.total, goal.total) || this;
+        _this.cardio = new Activity(actual.cardio, goal.cardio);
+        _this.fatBurn = new Activity(actual.fatBurn, goal.fatBurn);
+        _this.peak = new Activity(actual.peak, goal.peak);
+        return _this;
+    }
+    return ActiveZoneMinutesActivity;
+}(Activity));
+export { ActiveZoneMinutesActivity };
 // Last values
 var _lastActivities = new Activities();
 // Call back to requestin interface update
@@ -95,7 +111,7 @@ goals.addEventListener("reachgoal", function () {
  * Reset the last known state of activities.
  */
 export function reset() {
-    _lastActivities.activeMinutes = undefined;
+    _lastActivities.activeZoneMinutes = undefined;
     _lastActivities.calories = undefined;
     _lastActivities.distance = undefined;
     _lastActivities.elevationGain = undefined;
@@ -112,7 +128,8 @@ export function getNewValues() {
     if (!appbit.permissions.granted("access_activity")) {
         // Return empty activities
         var emptyActivity = new Activity(undefined, undefined);
-        result.activeMinutes = emptyActivity;
+        var emptyAZM = { total: 0, cardio: undefined, fatBurn: undefined, peak: undefined };
+        result.activeZoneMinutes = new ActiveZoneMinutesActivity(emptyAZM, emptyAZM);
         result.calories = emptyActivity;
         result.distance = emptyActivity;
         result.elevationGain = emptyActivity;
@@ -122,7 +139,7 @@ export function getNewValues() {
     // Get current acticities
     var steps = new Activity(today.adjusted.steps, goals.steps);
     var calories = new Activity(today.adjusted.calories, goals.calories);
-    var activeMinutes = new Activity(today.adjusted.activeMinutes, goals.activeMinutes);
+    var activeZoneMinutes = new ActiveZoneMinutesActivity(today.adjusted.activeZoneMinutes, goals.activeZoneMinutes);
     var distance = getDistances();
     if (equals(steps, _lastActivities.steps)) {
         _lastActivities.steps = steps;
@@ -132,9 +149,9 @@ export function getNewValues() {
         _lastActivities.calories = calories;
         result.calories = calories;
     }
-    if (equals(activeMinutes, _lastActivities.activeMinutes)) {
-        _lastActivities.activeMinutes = activeMinutes;
-        result.activeMinutes = activeMinutes;
+    if (equals(activeZoneMinutes, _lastActivities.activeZoneMinutes)) {
+        _lastActivities.activeZoneMinutes = activeZoneMinutes;
+        result.activeZoneMinutes = activeZoneMinutes;
     }
     if (equals(distance, _lastActivities.distance)) {
         _lastActivities.distance = distance;
