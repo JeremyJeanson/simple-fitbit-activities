@@ -68,11 +68,12 @@ export { Activity };
  */
 var ActiveZoneMinutesActivity = /** @class */ (function (_super) {
     __extends(ActiveZoneMinutesActivity, _super);
-    function ActiveZoneMinutesActivity(actual, goal) {
-        var _this = _super.call(this, actual.total, goal.total) || this;
-        _this.cardio = new Activity(actual.cardio, goal.cardio);
-        _this.fatBurn = new Activity(actual.fatBurn, goal.fatBurn);
-        _this.peak = new Activity(actual.peak, goal.peak);
+    function ActiveZoneMinutesActivity() {
+        var _this = _super.call(this, today.adjusted.activeZoneMinutes.total, goals.activeZoneMinutes.total) || this;
+        // today.adjusted.activeZoneMinutes, goals.activeZoneMinutes
+        _this.cardio = new Activity(today.local.activeZoneMinutes.cardio, goals.activeZoneMinutes.cardio);
+        _this.fatBurn = new Activity(today.local.activeZoneMinutes.fatBurn, goals.activeZoneMinutes.fatBurn);
+        _this.peak = new Activity(today.local.activeZoneMinutes.peak, goals.activeZoneMinutes.peak);
         return _this;
     }
     return ActiveZoneMinutesActivity;
@@ -128,8 +129,7 @@ export function getNewValues() {
     if (!appbit.permissions.granted("access_activity")) {
         // Return empty activities
         var emptyActivity = new Activity(undefined, undefined);
-        var emptyAZM = { total: 0, cardio: undefined, fatBurn: undefined, peak: undefined };
-        result.activeZoneMinutes = new ActiveZoneMinutesActivity(emptyAZM, emptyAZM);
+        result.activeZoneMinutes = new ActiveZoneMinutesActivity();
         result.calories = emptyActivity;
         result.distance = emptyActivity;
         result.elevationGain = emptyActivity;
@@ -139,7 +139,7 @@ export function getNewValues() {
     // Get current acticities
     var steps = new Activity(today.adjusted.steps, goals.steps);
     var calories = new Activity(today.adjusted.calories, goals.calories);
-    var activeZoneMinutes = new ActiveZoneMinutesActivity(today.adjusted.activeZoneMinutes, goals.activeZoneMinutes);
+    var activeZoneMinutes = new ActiveZoneMinutesActivity();
     var distance = getDistances();
     if (equals(steps, _lastActivities.steps)) {
         _lastActivities.steps = steps;

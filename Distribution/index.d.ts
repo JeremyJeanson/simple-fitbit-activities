@@ -1,4 +1,3 @@
-import { ActiveZoneMinutes } from "user-activity";
 /***
  * All activities
  */
@@ -44,7 +43,7 @@ export declare class Activity {
  * ActiveZoneMinutes (properties "actual" and "goal" are defined with the total values)
  */
 export declare class ActiveZoneMinutesActivity extends Activity {
-    constructor(actual: ActiveZoneMinutes, goal: ActiveZoneMinutes);
+    constructor();
     readonly cardio: Activity;
     readonly fatBurn: Activity;
     readonly peak: Activity;

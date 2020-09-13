@@ -78,11 +78,12 @@ export class Activity {
  * ActiveZoneMinutes (properties "actual" and "goal" are defined with the total values)
  */
 export class ActiveZoneMinutesActivity extends Activity {
-    constructor(actual: ActiveZoneMinutes, goal: ActiveZoneMinutes) {
-        super(actual.total, goal.total);
-        this.cardio = new Activity(actual.cardio, goal.cardio);
-        this.fatBurn = new Activity(actual.fatBurn, goal.fatBurn);
-        this.peak = new Activity(actual.peak, goal.peak);
+    constructor() {
+        super(today.adjusted.activeZoneMinutes.total, goals.activeZoneMinutes.total);
+        // today.adjusted.activeZoneMinutes, goals.activeZoneMinutes
+        this.cardio = new Activity(today.local.activeZoneMinutes.cardio, goals.activeZoneMinutes.cardio);
+        this.fatBurn = new Activity(today.local.activeZoneMinutes.fatBurn, goals.activeZoneMinutes.fatBurn);
+        this.peak = new Activity(today.local.activeZoneMinutes.peak, goals.activeZoneMinutes.peak);
     }
     public readonly cardio: Activity;
     public readonly fatBurn: Activity;
@@ -147,8 +148,7 @@ export function getNewValues(): Activities {
     if (!appbit.permissions.granted("access_activity")) {
         // Return empty activities
         const emptyActivity = new Activity(undefined, undefined);
-        const emptyAZM: ActiveZoneMinutes = { total: 0, cardio: undefined, fatBurn: undefined, peak: undefined };
-        result.activeZoneMinutes = new ActiveZoneMinutesActivity(emptyAZM, emptyAZM);
+        result.activeZoneMinutes = new ActiveZoneMinutesActivity();
         result.calories = emptyActivity;
         result.distance = emptyActivity;
         result.elevationGain = emptyActivity;
@@ -159,7 +159,7 @@ export function getNewValues(): Activities {
     // Get current acticities
     const steps = new Activity(today.adjusted.steps, goals.steps);
     const calories = new Activity(today.adjusted.calories, goals.calories);
-    const activeZoneMinutes = new ActiveZoneMinutesActivity(today.adjusted.activeZoneMinutes, goals.activeZoneMinutes);
+    const activeZoneMinutes = new ActiveZoneMinutesActivity();
     const distance = getDistances();
 
     if (equals(steps, _lastActivities.steps)) {
