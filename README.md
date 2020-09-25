@@ -5,6 +5,13 @@ The goal of this project is to simplify access and calculation of activities ins
 
 It was built to do all this work easier and reduce the need to update the UI and calculations. Less you have to calculate something or update the UI and more you will reduce the impact of your application on the battery consumption.
 
+# Versionning and Fitbit OS
+Like the Fitbit SDK, this module target tow OS. This split was made to allow users to use types définitions with the fitbit SDK 5.
+| Fitbit Os / SDK | Version to use |
+| -- | -- |
+| 4 | 1.x.x |
+| 5 | 2.x.x |
+
 # Features
 This module includes many features to help developers :
 - Get activities from a consistent way to allow you app to have a generic class to update the UI (each type of activity is reported as an object with the actual value, and goal,... and helpers).
