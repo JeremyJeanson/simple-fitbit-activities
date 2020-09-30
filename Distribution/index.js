@@ -18,28 +18,30 @@ export { Activities };
 var Activity = /** @class */ (function () {
     // constructor
     function Activity(actual, goal) {
-        this.actual = actual;
-        this.goal = goal;
+        this.actual = actual || 0;
+        this.actualUndefined = actual === undefined;
+        this.goal = goal || 0;
+        this.goalUndefined = goal === undefined;
     }
     /**
      * Activity is undefined
      * (allways true when "access_activity" is not granted)
      */
     Activity.prototype.undefined = function () {
-        return this.actual === undefined;
+        return this.actualUndefined;
     };
     /**
      * Return true if the goal of this activity was reached.
      */
     Activity.prototype.goalReached = function () {
-        return !this.undefined() && this.actual >= this.goal;
+        return !this.actualUndefined && this.actual >= this.goal;
     };
     /**
      * Return this actual value as angle (0=0% and 360=100%)
      */
     Activity.prototype.as360Arc = function () {
         // Check to avoid calcul
-        if (this.undefined() || this.goal === undefined
+        if (this.actualUndefined || this.goalUndefined
             || this.goal <= 0 || this.actual <= 0)
             return 0;
         if (this.actual >= this.goal)
@@ -52,7 +54,7 @@ var Activity = /** @class */ (function () {
      */
     Activity.prototype.asPourcent = function () {
         // Check to avoid calcul
-        if (this.undefined() || this.goal === undefined
+        if (this.actualUndefined || this.goalUndefined
             || this.goal <= 0 || this.actual <= 0)
             return 0;
         if (this.actual >= this.goal)
@@ -69,11 +71,12 @@ export { Activity };
 var ActiveZoneMinutesActivity = /** @class */ (function (_super) {
     __extends(ActiveZoneMinutesActivity, _super);
     function ActiveZoneMinutesActivity() {
-        var _this = _super.call(this, today.adjusted.activeZoneMinutes.total, goals.activeZoneMinutes.total) || this;
+        var _a, _b, _c, _d, _e, _f, _g, _h;
+        var _this = _super.call(this, (_a = today.adjusted.activeZoneMinutes) === null || _a === void 0 ? void 0 : _a.total, (_b = goals.activeZoneMinutes) === null || _b === void 0 ? void 0 : _b.total) || this;
         // today.adjusted.activeZoneMinutes, goals.activeZoneMinutes
-        _this.cardio = new Activity(today.local.activeZoneMinutes.cardio, goals.activeZoneMinutes.cardio);
-        _this.fatBurn = new Activity(today.local.activeZoneMinutes.fatBurn, goals.activeZoneMinutes.fatBurn);
-        _this.peak = new Activity(today.local.activeZoneMinutes.peak, goals.activeZoneMinutes.peak);
+        _this.cardio = new Activity((_c = today.local.activeZoneMinutes) === null || _c === void 0 ? void 0 : _c.cardio, (_d = goals.activeZoneMinutes) === null || _d === void 0 ? void 0 : _d.cardio);
+        _this.fatBurn = new Activity((_e = today.local.activeZoneMinutes) === null || _e === void 0 ? void 0 : _e.fatBurn, (_f = goals.activeZoneMinutes) === null || _f === void 0 ? void 0 : _f.fatBurn);
+        _this.peak = new Activity((_g = today.local.activeZoneMinutes) === null || _g === void 0 ? void 0 : _g.peak, (_h = goals.activeZoneMinutes) === null || _h === void 0 ? void 0 : _h.peak);
         return _this;
     }
     return ActiveZoneMinutesActivity;

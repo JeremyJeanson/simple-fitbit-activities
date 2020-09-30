@@ -7,11 +7,11 @@ import { units } from "user-settings";
  * All activities
  */
 export class Activities {
-    steps: Activity;
-    elevationGain: Activity;
-    calories: Activity;
-    activeZoneMinutes: ActiveZoneMinutesActivity;
-    distance: Activity;
+    steps: Activity | undefined;
+    elevationGain: Activity | undefined;
+    calories: Activity | undefined;
+    activeZoneMinutes: ActiveZoneMinutesActivity | undefined;
+    distance: Activity | undefined;
 }
 
 /**
@@ -19,9 +19,11 @@ export class Activities {
  */
 export class Activity {
     // constructor
-    constructor(actual: number, goal: number) {
-        this.actual = actual;
-        this.goal = goal;
+    constructor(actual: number | undefined, goal: number | undefined) {
+        this.actual = actual || 0;
+        this.actualUndefined = actual === undefined;
+        this.goal = goal || 0;
+        this.goalUndefined = goal === undefined;
     }
 
     /**
@@ -34,19 +36,22 @@ export class Activity {
      */
     public readonly goal: number;
 
+    private readonly actualUndefined: boolean;
+    private readonly goalUndefined: boolean;
+
     /**
      * Activity is undefined
      * (allways true when "access_activity" is not granted)
      */
     public undefined(): boolean {
-        return this.actual === undefined;
+        return this.actualUndefined;
     }
 
     /**
      * Return true if the goal of this activity was reached.
      */
     public goalReached(): boolean {
-        return !this.undefined() && this.actual >= this.goal;
+        return !this.actualUndefined && this.actual >= this.goal;
     }
 
     /**
@@ -54,7 +59,7 @@ export class Activity {
      */
     public as360Arc(): number {
         // Check to avoid calcul
-        if (this.undefined() || this.goal === undefined
+        if (this.actualUndefined || this.goalUndefined
             || this.goal <= 0 || this.actual <= 0) return 0;
         if (this.actual >= this.goal) return 360;
         // Calcul
@@ -66,7 +71,7 @@ export class Activity {
      */
     public asPourcent(): number {
         // Check to avoid calcul
-        if (this.undefined() || this.goal === undefined
+        if (this.actualUndefined || this.goalUndefined
             || this.goal <= 0 || this.actual <= 0) return 0;
         if (this.actual >= this.goal) return 100;
         // Calcul
@@ -79,11 +84,11 @@ export class Activity {
  */
 export class ActiveZoneMinutesActivity extends Activity {
     constructor() {
-        super(today.adjusted.activeZoneMinutes.total, goals.activeZoneMinutes.total);
+        super(today.adjusted.activeZoneMinutes?.total, goals.activeZoneMinutes?.total);
         // today.adjusted.activeZoneMinutes, goals.activeZoneMinutes
-        this.cardio = new Activity(today.local.activeZoneMinutes.cardio, goals.activeZoneMinutes.cardio);
-        this.fatBurn = new Activity(today.local.activeZoneMinutes.fatBurn, goals.activeZoneMinutes.fatBurn);
-        this.peak = new Activity(today.local.activeZoneMinutes.peak, goals.activeZoneMinutes.peak);
+        this.cardio = new Activity(today.local.activeZoneMinutes?.cardio, goals.activeZoneMinutes?.cardio);
+        this.fatBurn = new Activity(today.local.activeZoneMinutes?.fatBurn, goals.activeZoneMinutes?.fatBurn);
+        this.peak = new Activity(today.local.activeZoneMinutes?.peak, goals.activeZoneMinutes?.peak);
     }
     public readonly cardio: Activity;
     public readonly fatBurn: Activity;
@@ -209,7 +214,7 @@ function getDistances(): Activity {
  * Convert metric to milles
  * @param value to convert
  */
-function metrics2Miles(value: number): number {
+function metrics2Miles(value: number | undefined): number | undefined {
     if (value === undefined) return undefined;
     return parseFloat((value * 0.00062137).toFixed(2));
 }
@@ -219,7 +224,7 @@ function metrics2Miles(value: number): number {
  * @param actual state of the activity
  * @param last state of the activity
  */
-function equals(actual: Activity, last: Activity) {
+function equals(actual: Activity, last: Activity | undefined) {
     return last === undefined
         || actual.actual !== last.actual
         || actual.goal !== last.goal;
