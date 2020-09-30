@@ -2,17 +2,17 @@
  * All activities
  */
 export declare class Activities {
-    steps: Activity;
-    elevationGain: Activity;
-    calories: Activity;
-    activeZoneMinutes: ActiveZoneMinutesActivity;
-    distance: Activity;
+    steps: Activity | undefined;
+    elevationGain: Activity | undefined;
+    calories: Activity | undefined;
+    activeZoneMinutes: ActiveZoneMinutesActivity | undefined;
+    distance: Activity | undefined;
 }
 /**
  * Activity helper
  */
 export declare class Activity {
-    constructor(actual: number, goal: number);
+    constructor(actual: number | undefined, goal: number | undefined);
     /**
      * Current value of this activity
      */
@@ -21,6 +21,8 @@ export declare class Activity {
      * Value of the Goal to reach
      */
     readonly goal: number;
+    private readonly actualUndefined;
+    private readonly goalUndefined;
     /**
      * Activity is undefined
      * (allways true when "access_activity" is not granted)

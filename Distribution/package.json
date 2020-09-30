@@ -1,6 +1,6 @@
 {
   "name": "simple-fitbit-activities",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Module to simplify access and calcul of activities inside Fitbit OS applications",
   "author": "Jérémy Jeanson (https://www.bugshunter.net)",
   "license": "MIT",
