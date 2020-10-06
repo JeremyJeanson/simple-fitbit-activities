@@ -70,13 +70,13 @@ export { Activity };
  */
 var ActiveZoneMinutesActivity = /** @class */ (function (_super) {
     __extends(ActiveZoneMinutesActivity, _super);
-    function ActiveZoneMinutesActivity() {
-        var _a, _b, _c, _d, _e, _f, _g, _h;
-        var _this = _super.call(this, (_a = today.adjusted.activeZoneMinutes) === null || _a === void 0 ? void 0 : _a.total, (_b = goals.activeZoneMinutes) === null || _b === void 0 ? void 0 : _b.total) || this;
+    function ActiveZoneMinutesActivity(actual, goal) {
+        var _a, _b, _c, _d, _e, _f;
+        var _this = _super.call(this, actual, goal) || this;
         // today.adjusted.activeZoneMinutes, goals.activeZoneMinutes
-        _this.cardio = new Activity((_c = today.local.activeZoneMinutes) === null || _c === void 0 ? void 0 : _c.cardio, (_d = goals.activeZoneMinutes) === null || _d === void 0 ? void 0 : _d.cardio);
-        _this.fatBurn = new Activity((_e = today.local.activeZoneMinutes) === null || _e === void 0 ? void 0 : _e.fatBurn, (_f = goals.activeZoneMinutes) === null || _f === void 0 ? void 0 : _f.fatBurn);
-        _this.peak = new Activity((_g = today.local.activeZoneMinutes) === null || _g === void 0 ? void 0 : _g.peak, (_h = goals.activeZoneMinutes) === null || _h === void 0 ? void 0 : _h.peak);
+        _this.cardio = new Activity((_a = today.local.activeZoneMinutes) === null || _a === void 0 ? void 0 : _a.cardio, (_b = goals.activeZoneMinutes) === null || _b === void 0 ? void 0 : _b.cardio);
+        _this.fatBurn = new Activity((_c = today.local.activeZoneMinutes) === null || _c === void 0 ? void 0 : _c.fatBurn, (_d = goals.activeZoneMinutes) === null || _d === void 0 ? void 0 : _d.fatBurn);
+        _this.peak = new Activity((_e = today.local.activeZoneMinutes) === null || _e === void 0 ? void 0 : _e.peak, (_f = goals.activeZoneMinutes) === null || _f === void 0 ? void 0 : _f.peak);
         return _this;
     }
     return ActiveZoneMinutesActivity;
@@ -126,13 +126,14 @@ export function reset() {
  * Properties are undefined if the values haven't changed since the last call
  */
 export function getNewValues() {
+    var _a, _b;
     // Init
     var result = new Activities();
     // Check permission
     if (!appbit.permissions.granted("access_activity")) {
         // Return empty activities
         var emptyActivity = new Activity(undefined, undefined);
-        result.activeZoneMinutes = new ActiveZoneMinutesActivity();
+        result.activeZoneMinutes = new ActiveZoneMinutesActivity(undefined, undefined);
         result.calories = emptyActivity;
         result.distance = emptyActivity;
         result.elevationGain = emptyActivity;
@@ -142,7 +143,7 @@ export function getNewValues() {
     // Get current acticities
     var steps = new Activity(today.adjusted.steps, goals.steps);
     var calories = new Activity(today.adjusted.calories, goals.calories);
-    var activeZoneMinutes = new ActiveZoneMinutesActivity();
+    var activeZoneMinutes = new ActiveZoneMinutesActivity((_a = today.adjusted.activeZoneMinutes) === null || _a === void 0 ? void 0 : _a.total, (_b = goals.activeZoneMinutes) === null || _b === void 0 ? void 0 : _b.total);
     var distance = getDistances();
     if (equals(steps, _lastActivities.steps)) {
         _lastActivities.steps = steps;

@@ -45,7 +45,7 @@ export declare class Activity {
  * ActiveZoneMinutes (properties "actual" and "goal" are defined with the total values)
  */
 export declare class ActiveZoneMinutesActivity extends Activity {
-    constructor();
+    constructor(actual: number | undefined, goal: number | undefined);
     readonly cardio: Activity;
     readonly fatBurn: Activity;
     readonly peak: Activity;
@@ -53,7 +53,7 @@ export declare class ActiveZoneMinutesActivity extends Activity {
 /**
  * Allow to detect elevation capacity on others device than versa light.
  */
-export declare function elevationIsAvailable(): Boolean;
+export declare function elevationIsAvailable(): boolean;
 /**
  * Initialize this helper.
  * @param callback : method use to notify the application when activities changed
