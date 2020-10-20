@@ -1,18 +1,13 @@
-﻿[![npm](https://img.shields.io/npm/dw/simple-fitbit-activities.svg?logo=npm&label=npm%20version)](https://www.npmjs.com/package/simple-fitbit-activities)
+﻿
+# Simple Fitbit Activities
+[![npm](https://img.shields.io/npm/dw/simple-fitbit-activities.svg?logo=npm&label=npm%20version)](https://www.npmjs.com/package/simple-fitbit-activities)
 
-# Introduction
+## Introduction
 The goal of this project is to simplify access and calculation of activities inside Fitbit OS applications.
 
 It was built to do all this work easier and reduce the need to update the UI and calculations. Less you have to calculate something or update the UI and more you will reduce the impact of your application on the battery consumption.
 
-# Versionning and Fitbit OS
-Like the Fitbit SDK, this module target tow OS. This split was made to allow users to use types définitions with the fitbit SDK 5.
-| Fitbit Os / SDK | Version to use |
-| -- | -- |
-| 4 | 1.x.x |
-| 5 | 2.x.x |
-
-# Features
+## Features
 This module includes many features to help developers :
 - Get activities from a consistent way to allow you app to have a generic class to update the UI (each type of activity is reported as an object with the actual value, and goal,... and helpers).
 - Report activities only when progression or goal changed (to avoid your app to make too many requests to the UI).
@@ -22,7 +17,7 @@ This module includes many features to help developers :
 - Method to obtain user progression as angle (360°=100%).
 - Type definitions for TypScript or JavaScript (with comments to visualize the documentation when you are coding).
 
-# Data structure
+## Data structure
 Data returned by the module respect the `Activities` interface. Each property is defined when new values are available.
 ```ts
 /***
@@ -86,9 +81,9 @@ ActiveZoneMinutesActivity as 3 more properties:
 
 Properties `actual` and `goal` are exposing total values.
 
-# Installation
+## Installation
 
-## 1. Install the module
+### 1. Install the module
 
 You could use a any package manager to install this module. it was tested with npm and pnpm.
 
@@ -96,7 +91,7 @@ You could use a any package manager to install this module. it was tested with n
 npm install simple-fitbit-activities --save-dev
 ```
 
-## 2. Request user's permissions
+### 2. Request user's permissions
 
 Your application should have access to :
 - `access_activity` : requested to obtain activities of the user.
@@ -117,7 +112,7 @@ If permissions are not well set, you will not have exceptions :
 - Values and calculs will return `0`.
 - Distance will use `miles` as unit.
 
-## 3. Initialize the device app
+### 3. Initialize the device app
 
 Inside the `app` folder the `index.ts` file have to :
 - Import the module.
@@ -130,7 +125,7 @@ import * as simpleActivities from "simple-fitbit-activities";
 simpleActivities.initialize(UpdateActivities);
 ```
 
-## 4. Use and get activities
+### 4. Use and get activities
 
 The `UpdateActivities` have to call the `getNewValues()` method to obtain new values.
 
@@ -153,12 +148,12 @@ function UpdateActivities() {
 
 The method `UpdateActivity` ia a generic method (for example). This method is here to update the UI. Prior to update the UI, the `Activity` should be verified. It will be `undefined` if values haven't changed since the last call.
 
-## 5. Refresh / update
+### 5. Refresh / update
 
 This module hasn't logic to periodic refresh. You have to call your `UpdateActivities` 
 method when you need an update of user activities (you could use the Fitbit `clock` module to).
 
-## 6. Bonus
+### 6. Bonus
 
 The method `elevationIsAvailable()` allow your app to check if the device has capacity to monitor user elevation.
 The module has a reset method. It will delete cache of activities. Next call to `getNewValues()` will return an object will all properties defined. It could have an interest when you have to reset your UI, or when you want to force the call of all your methods.
@@ -170,13 +165,13 @@ simpleActivities.reset();
 // Call an update
 UpdateActivities();
 ```
-# Contribute or report issues
+## Contribute or report issues
 
 You can report any issue via GitHub, if you found one, please report it!
 This code was open to be shared and improved. If you have an idea, tell it or send a pull request.
 Keep in mind that this module is built for small devices. It does not have the goal to be a Swiss knife with hundreds of functions. It is why it is simple as possible.
 
-# Compilation
+## Compilation
 
 This module was built with TypeScript. It uses Typescript to generate JavaScript files that are imported by the Fitbit SDK.
 It includes the following npm scripts to:
